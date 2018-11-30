@@ -1,0 +1,58 @@
+#!/bin/bash
+
+HOST="localhost"
+PORT="8080"
+
+##function
+ping () {
+    echo `/sbin/pidof nginx | wc -l`
+}
+
+active () {
+    echo `/usr/bin/curl "http://$HOST:$PORT/status/" 2>/dev/null| grep 'Active' | awk '{print $NF}'`
+}
+reading () {
+    echo `/usr/bin/curl "http://$HOST:$PORT/status/" 2>/dev/null| grep 'Reading' | awk '{print $2}'`
+}
+writing () {
+    echo `/usr/bin/curl "http://$HOST:$PORT/status/" 2>/dev/null| grep 'Writing' | awk '{print $4}'`
+}
+waiting () {
+    echo `/usr/bin/curl "http://$HOST:$PORT/status/" 2>/dev/null| grep 'Waiting' | awk '{print $6}'`
+}
+accepts () {
+    echo `/usr/bin/curl "http://$HOST:$PORT/status/" 2>/dev/null| awk NR==3 | awk '{print $1}'`
+}
+handled () {
+    echo `/usr/bin/curl "http://$HOST:$PORT/status/" 2>/dev/null| awk NR==3 | awk '{print $2}'`
+}
+requests () {
+    echo `/usr/bin/curl "http://$HOST:$PORT/status/" 2>/dev/null| awk NR==3 | awk '{print $3}'`
+}
+
+error () {
+    echo "$0: [ping|active|reading|writing|waiting|accepts|handled|requests] nginx_port"
+}
+
+
+###main
+[ $# -lt 1 ]&&error&&exit 1
+
+if [ $1 != "ping" ]&&[ $1 != "active" ]&&[ $1 != "reading" ]&&[ $1 != "writing" ]&&[ $1 != "waiting" ]&&[ $1 != "accepts" ]&&[ $1 != "handled" ]&&[ $1 != "requests" ];then
+	error
+	exit 1
+fi
+###function callable
+case $1 in 
+ping) ping;;
+active) active;;
+reading) reading;;
+writing) writing;;
+waiting) waiting;;
+accepts) accepts;;
+handled) handled;;
+requests) requests;;
+*) error;;
+esac
+
+exit 0

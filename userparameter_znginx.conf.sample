@@ -1,0 +1,6 @@
+#
+# This is a sample zabbix_agentd config file.
+# Put it to /etc/zabbix/zabbix_agentd.conf.d or otherwise integrate into agent config.
+# Edit to your needs.
+# set HOST and PORT varable
+UserParameter=nginx.check[*],/etc/zabbix/libexec/znginx $1
