@@ -1,6 +1,6 @@
 						Znginx使用指南
 
-一、znginx 介绍
+一、Znginx 介绍
 Znginx 是一款基于zabbix对Nginx监控的一个模板
 Znginx 需要Nginx ngx_http_stub_status_module支持
 Znginx 对Nginx服务状态进行监控、并通过触发器报警
